@@ -78,7 +78,7 @@ module.exports = {
 
     'array-bracket-spacing': 0, // [ 'error', 'always', { singleValue: false } ],
     'object-curly-spacing': [ 'error', 'always' ],
-    'computed-property-spacing': [ 'error', 'always' ],
+    'computed-property-spacing': 0, // [ 'error', 'always' ],
     'template-curly-spacing': [ 'error', 'always' ],
 
     'no-param-reassign': 'off',
