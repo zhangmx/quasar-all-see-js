@@ -211,12 +211,25 @@ module.exports = configure((ctx) => ({
 
       // Windows only
       // win32metadata: { ... }
+      win: {
+        target: 'nsis'
+      },
+      linux: {
+        target: 'AppImage'
+      },
+      mac: {
+        target: 'default'
+      }
     },
 
     builder: {
       // https://www.electron.build/configuration/configuration
 
       appId: 'quasar-all-see-js',
+      linux: {
+        category: 'Utility'
+        //   target: 'AppImage'
+      }
     },
 
     // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

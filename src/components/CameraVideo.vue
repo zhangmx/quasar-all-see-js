@@ -64,7 +64,7 @@ export default defineComponent({
 
   methods: {
     toggleEnabled() {
-      console.log('Toggle enabled', this.enabled);
+      // console.log('Toggle enabled', this.enabled);
       this.$emit('update:enabled', !this.enabled);
     },
   },
