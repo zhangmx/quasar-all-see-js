@@ -31,3 +31,14 @@ quasar build
 
 ### Customize the configuration
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
+
+### based on
+
+- https://github.com/hawkeye64/electron-quasar-file-explorer-v2
+- https://github.com/muaz-khan/RecordRTC
+- https://github.com/muaz-khan/DetectRTC
+- https://github.com/streamproc/MediaStreamRecorder
+- https://github.com/collab-project/videojs-record
+
+> others
+- https://github.com/muaz-khan/WebRTC-Experiment
