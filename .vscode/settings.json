@@ -12,5 +12,8 @@
     "typescript",
     "vue"
   ],
-  "deepscan.enable": true
+  "deepscan.enable": true,
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  }
 }
