@@ -53,8 +53,12 @@ module.exports = {
 
   // add your custom rules here
   rules: {
-    'brace-style': [ 'error', 'stroustrup', { allowSingleLine: true } ],
+    'brace-style': 0, // [ 'error', 'stroustrup', { allowSingleLine: true } ],
     'prefer-const': 'error',
+
+    semi: 0,
+    'comma-dangle': 0,
+    'space-before-function-paren': 0,
 
     'multiline-ternary': 'off',
     'no-prototype-builtins': 'off',
@@ -72,7 +76,7 @@ module.exports = {
     'no-confusing-arrow': [ 'error', { allowParens: true } ],
     'operator-linebreak': [ 'error', 'before' ],
 
-    'array-bracket-spacing': [ 'error', 'always', { singleValue: false } ],
+    'array-bracket-spacing': 0, // [ 'error', 'always', { singleValue: false } ],
     'object-curly-spacing': [ 'error', 'always' ],
     'computed-property-spacing': [ 'error', 'always' ],
     'template-curly-spacing': [ 'error', 'always' ],
