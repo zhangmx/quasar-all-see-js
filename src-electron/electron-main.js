@@ -13,11 +13,11 @@ try {
   }
 } catch (_) { }
 
-useHandler()
+// useHandler()
 
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
@@ -27,6 +27,7 @@ function createWindow () {
     height: 600,
     useContentSize: true,
     autoHideMenuBar: true,
+    // fullscreen: true,//
     // frame: false,
     webPreferences: {
       contextIsolation: true,
@@ -34,6 +35,8 @@ function createWindow () {
       preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD)
     }
   })
+
+  useHandler(mainWindow)
 
   mainWindow.loadURL(process.env.APP_URL)
 
