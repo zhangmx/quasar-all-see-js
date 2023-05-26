@@ -15,16 +15,17 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
         <q-item-label header>
-          Essential Links
+          All cameras
         </q-item-label>
 
-        <CameraLink v-for="camera in cameraLinks" :key="camera.title" v-bind="camera" @toggle-enabled="toggleCamera" />
+        <CameraLink v-for="camera in cameraLinks" :key="camera.deviceId" v-bind="camera" @toggle-enabled="toggleCamera" />
       </q-list>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
   </q-layout>
 </template>
 

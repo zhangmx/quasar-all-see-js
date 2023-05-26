@@ -1,22 +1,16 @@
 <template>
-  <q-item
-    clickable
-    v-if="enabled"
-    tag="a"
-    target="javascript:void(0);"
-    @click="$emit('toggleEnabled',deviceId)"
-  >
-    <q-item-section>
-      <q-item-label>{{ label }}</q-item-label>
-    </q-item-section>
+  <q-card dark bordered class="bg-grey-9 my-card" v-if="enabled">
+      <q-card-section>
+        <div class="text-h6">{{ label }}</div>
+        <div class="text-subtitle2">{{ label }}</div>
+      </q-card-section>
 
-    <q-item-section
-      v-if="enabled"
-      avatar
-    >
-      <q-icon name="favorite" />
-    </q-item-section>
-  </q-item>
+      <q-separator dark inset />
+
+      <q-card-section>
+        {{ savedFolder }}
+      </q-card-section>
+  </q-card>
 </template>
 
 <script>
@@ -60,6 +54,10 @@ export default defineComponent({
       default: '',
     },
 
+    savedFolder: {
+      type: String,
+      default: '',
+    }
   },
 
   methods: {
@@ -68,5 +66,15 @@ export default defineComponent({
       this.$emit('update:enabled', !this.enabled);
     },
   },
+
+  setup(props) {
+    console.log('CameraLink', props.savedFolder)
+
+    const link = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
+
+    return {
+      link
+    }
+  }
 });
 </script>

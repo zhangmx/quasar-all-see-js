@@ -1,15 +1,18 @@
 <template>
   <q-page class="flex flex-center">
-
-    <CameraVideo v-for="camera in cameraList" :key="camera.title" v-bind="camera" />
-
-    <span class="tag label bg-primary text-white">Current folder: {{ fileFolder }}</span><br />
-    <hr />
-    <q-btn @click="updateFileFolder" color="secondary" label="Update folder" />
-
-    <!-- <input type="file" webkitdirectory="true" directory @change="updateFileFolder" /> -->
-
+    <div class="q-pa-md row items-start q-gutter-md">
+      <CameraVideo v-for="camera in cameraList" :key="camera.deviceId" v-bind="camera" :saved-folder="fileFolder" />
+    </div>
   </q-page>
+
+  <q-footer reveal bordered class="bg-grey-8 text-white">
+    <q-toolbar>
+      <q-toolbar-title>
+        <q-btn @click="updateFileFolder" color="secondary" label="Update folder" />
+        <span class="tag label bg-primary text-white">Current folder: {{ fileFolder }}</span>
+      </q-toolbar-title>
+    </q-toolbar>
+  </q-footer>
 </template>
 
 <script>

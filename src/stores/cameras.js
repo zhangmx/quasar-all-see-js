@@ -2,6 +2,11 @@ import { defineStore } from 'pinia';
 import DetectRTC from 'detectrtc';
 
 export const useCamerasStore = defineStore('cameras', {
+  /**
+   * Returns an object representing the initial state of the cameras array.
+   *
+   * @return {object} An object with an empty cameras array.
+   */
   state: () => ({
     cameras: [],
   }),
