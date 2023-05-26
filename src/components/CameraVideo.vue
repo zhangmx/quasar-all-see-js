@@ -1,8 +1,8 @@
 <template>
-  <q-card dark bordered class="bg-grey-9 my-card" v-if="enabled">
+  <q-card dark bordered class="bg-grey-9 my-card" v-show="enabled">
     <q-card-section>
 
-      <video ref="videoPlayerElement" class="video-js" />
+      <video id="videoPlayerElement" class="video-js" />
 
       <div class="text-h6">{{ label }}</div>
       <div class="text-subtitle2">{{ label }}</div>
@@ -19,6 +19,10 @@
 <script>
 import { defineComponent } from 'vue';
 import videojs from 'video.js';
+import 'webrtc-adapter'
+import RecordRTC from 'recordrtc'
+// eslint-disable-next-line no-unused-vars
+import Record from 'videojs-record/dist/videojs.record.js'
 
 const options = {
   controls: true,
@@ -84,6 +88,12 @@ export default defineComponent({
     }
   },
 
+  data() {
+    return {
+      player: null,
+    }
+  },
+
   methods: {
     toggleEnabled() {
       // console.log('Toggle enabled', this.enabled);
@@ -91,27 +101,61 @@ export default defineComponent({
     },
   },
 
-  setup(props, context) {
-    console.log('CameraLink', props.savedFolder)
-
-    const link = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
-
-    const videoPlayer = videojs(context.refs.videoPlayerElement, options, () => {
+  mounted() {
+    this.player = videojs('videoPlayerElement', options, () => {
       // this.player.log("onPlayerReady", this);
+      const msg = 'Using video.js ' + videojs.VERSION
+        + ' with videojs-record ' + videojs.getPluginVersion('record')
+        + ' and recordrtc ' + RecordRTC.version;
+      videojs.log(msg);
     });
 
     // videoPlayer.src({
     //   src: link,
     //   type: 'application/x-mpegURL'
     // });
-    async function getCameraStream() {
+
+    const deviceId = this.props.deviceId
+
+    async function getCameraStream(deviceId) {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { deviceId: { exact: props.deviceId } },
+        video: { deviceId: { exact: deviceId } },
       });
-      videoPlayer.srcObject = stream;
+      this.player.srcObject = stream;
     }
 
-    getCameraStream()
+    getCameraStream(deviceId)
+
+    // device is ready
+    this.player.on('deviceReady', () => {
+      console.log('device is ready!');
+    });
+
+    // user clicked the record button and started recording
+    this.player.on('startRecord', () => {
+      console.log('started recording!');
+    });
+
+    // user completed recording and stream is available
+    this.player.on('finishRecord', () => {
+      // the blob object contains the recorded data that
+      // can be downloaded by the user, stored on server etc.
+      console.log('finished recording: ', this.player.recordedData);
+    });
+
+    // error handling
+    this.player.on('error', (element, error) => {
+      console.warn(error);
+    });
+
+    this.player.on('deviceError', () => {
+      console.error('device error:', this.player.deviceErrorCode);
+    });
+  },
+  setup(props, context) {
+    console.log('CameraLink', props.savedFolder)
+
+    const link = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
 
     return {
       link
