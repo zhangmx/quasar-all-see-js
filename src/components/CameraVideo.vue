@@ -71,13 +71,6 @@ export default defineComponent({
       default: '',
     }
   },
-
-  // data() {
-  //   return {
-  //     player: null,
-  //   }
-  // },
-
   methods: {
     toggleEnabled() {
       // console.log('Toggle enabled', this.enabled);
@@ -114,6 +107,8 @@ export default defineComponent({
         controls: true,
         width: 320,
         height: 240,
+        loop: false,
+        autoplay: false,
         fluid: false,
         bigPlayButton: false,
         controlBar: {
@@ -126,7 +121,7 @@ export default defineComponent({
               // video constraints: use preset device
               deviceId: { exact: props.deviceId }
             },
-            maxLength: 10,
+            // maxLength: 10,
             displayMilliseconds: false,
             debug: true
           }
@@ -170,7 +165,7 @@ export default defineComponent({
       player.on('finishRecord', () => {
         // the blob object contains the recorded data that
         // can be downloaded by the user, stored on server etc.
-        console.log('finished recording: ', this.player.recordedData);
+        console.log('finished recording: ', player.recordedData);
       });
 
       // error handling
@@ -179,7 +174,7 @@ export default defineComponent({
       });
 
       player.on('deviceError', () => {
-        console.error('device error:', this.player.deviceErrorCode);
+        console.error('device error:', player.deviceErrorCode);
       });
     })
 
