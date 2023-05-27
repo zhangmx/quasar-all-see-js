@@ -121,7 +121,7 @@ export default defineComponent({
               // video constraints: use preset device
               deviceId: { exact: props.deviceId }
             },
-            // maxLength: 10,
+            maxLength: 20 * 60,
             displayMilliseconds: false,
             debug: true
           }
