@@ -6,7 +6,7 @@
     @click="$emit('toggleEnabled',deviceId)"
   >
     <q-item-section>
-      <q-item-label>{{ label }}</q-item-label>
+      <q-item-label>{{ cameraName }}</q-item-label>
     </q-item-section>
 
     <q-item-section
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'CameraLink',
@@ -59,13 +59,19 @@ export default defineComponent({
       default: '',
     },
 
-  },
-
-  methods: {
-    toggleEnabled() {
-      console.log('Toggle enabled', this.enabled);
-      this.$emit('update:enabled', !this.enabled);
+    name: {
+      type: String,
+      default: '',
     },
   },
+  setup(props) {
+    const cameraName = computed(() => {
+      return props.name || props.label;
+    });
+
+    return {
+      cameraName
+    }
+  }
 });
 </script>
