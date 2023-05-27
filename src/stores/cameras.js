@@ -16,7 +16,9 @@ export const useCamerasStore = defineStore('cameras', {
   actions: {
     refresh() {
       DetectRTC.load(() => {
-        this.cameras = DetectRTC.videoInputDevices;
+        this.cameras = DetectRTC.videoInputDevices.map((device) => {
+          return { ...device, enabled: true };
+        });
       })
     },
     toggleCamera(camera) {
