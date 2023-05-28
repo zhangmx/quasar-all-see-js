@@ -8,21 +8,21 @@
   <q-footer reveal bordered class="bg-grey-8 text-white">
     <q-toolbar>
       <q-toolbar-title>
-        <q-btn @click="updateFileFolder" color="secondary" label="Update folder" />
-        <span class="tag label bg-primary text-white">Current folder: {{ fileFolder }}</span>
+        <q-btn @click="updateFileFolder" color="secondary" label="视频保存目录: " />
+        <span class="tag label bg-primary text-white">{{ fileFolder }}</span>
       </q-toolbar-title>
     </q-toolbar>
   </q-footer>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 import { useCamerasStore } from 'stores/cameras';
 import { useFolderStore } from 'stores/folder';
 import { storeToRefs } from 'pinia';
 import CameraVideo from 'components/CameraVideo.vue';
 
-import { selectFolder } from '../backend/utils.js'
+import { selectFolder, shortcutDirs } from '../backend/utils.js'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -38,14 +38,20 @@ export default defineComponent({
     const { folder } = storeToRefs(folderStore);
     const { updateFolder } = folderStore;
 
+    onBeforeMount(async () => {
+      if (!folder.value) {
+        const shortcuts = await shortcutDirs()
+        updateFolder(shortcuts.video);
+      }
+    })
     console.log(folder)
     async function updateSavedFolder(event) {
       console.log(event.target)
 
-      const folder = await selectFolder()
-      console.log(folder)
-      if (folder && folder.length > 0) {
-        updateFolder(folder[0]);
+      const userSelectFolder = await selectFolder()
+      console.log(userSelectFolder)
+      if (userSelectFolder && userSelectFolder.length > 0) {
+        updateFolder(userSelectFolder[0]);
       }
       // updateFolder(folder[0]);
       // const { ipcRenderer } = require('electron')
