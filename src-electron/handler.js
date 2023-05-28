@@ -2,7 +2,7 @@ import { app, ipcMain, shell, dialog } from 'electron'
 // import { app, ipcMain, shell, dialog, BrowserWindow } from 'electron'
 import path from 'path'
 import os from 'os'
-import { pathExists, readFileSync } from 'fs-extra'
+import { pathExists, readFileSync, writeFile } from 'fs-extra'
 import mime from 'mime'
 
 import walkFolders from './walkFolders'
@@ -127,5 +127,21 @@ export function useHandler(mainWindow) {
     //     dialogWindow.destroy()
     //   })
     // })
+  })
+
+  ipcMain.handle('myShell:saveVideo', async (event, fileFolder, arrayBuffer) => {
+    const filename = new Date().getTime() + '.webm';
+    const filePath = path.join(fileFolder, filename);
+
+    const buffer = Buffer.from(arrayBuffer);
+
+    writeFile(filePath, buffer, err => {
+      if (!err) {
+        event.sender.send('video-saved');
+        // return filePath;
+      }
+    });
+
+    return filePath;
   })
 }

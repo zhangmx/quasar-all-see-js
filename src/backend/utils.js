@@ -103,3 +103,7 @@ export async function getMimeType (path) {
 export async function selectFolder() {
   return await myShell.selectFolder()
 }
+
+export async function saveVideo(filePath, buffer) {
+  return await myShell.saveVideo(filePath, buffer)
+}

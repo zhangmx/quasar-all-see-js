@@ -5,19 +5,19 @@
       <video :id="videoElementId" class="video-js vjs-default-skin" playsinline></video>
 
       <div class="text-h6">{{ label }}</div>
-      <div class="text-subtitle2">{{ label }}</div>
+      <!-- <div class="text-subtitle2">{{ lastSavedFilePath }}</div> -->
     </q-card-section>
 
     <q-separator dark inset />
 
     <q-card-section>
-      {{ savedFolder }}
+      {{ lastSavedFilePath }}
     </q-card-section>
   </q-card>
 </template>
 
 <script>
-import { defineComponent, computed, onMounted } from 'vue';
+import { defineComponent, computed, onMounted, ref } from 'vue';
 import 'video.js/dist/video-js.css'
 import 'videojs-record/dist/css/videojs.record.css'
 import videojs from 'video.js';
@@ -27,6 +27,7 @@ import RecordRTC from 'recordrtc'
 
 // eslint-disable-next-line no-unused-vars
 import Record from 'videojs-record/dist/videojs.record.js'
+import { saveVideo } from '../backend/utils.js'
 
 export default defineComponent({
   name: 'CameraLink',
@@ -87,6 +88,7 @@ export default defineComponent({
     // const link = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
 
     const videoElementId = computed(() => 'id' + props.id.slice(2, 10))
+    const lastSavedFilePath = ref('')
 
     let player;
 
@@ -162,10 +164,50 @@ export default defineComponent({
       });
 
       // user completed recording and stream is available
-      player.on('finishRecord', () => {
+      player.on('finishRecord', async () => {
         // the blob object contains the recorded data that
         // can be downloaded by the user, stored on server etc.
-        console.log('finished recording: ', player.recordedData);
+        console.log('finished recording: ', props.savedFolder, player.recordedData);
+        function blobToArrayBuffer(blob) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsArrayBuffer(blob);
+          });
+        }
+        // const desktopDir = require('desktop-dir');
+        // const dir = desktopDir('Desktop');
+
+        // 生成文件名
+        // const filename = new Date().getTime() + '.webm';
+
+        // let filePath = props.savedFolder;
+        // filePath += '/' + filename;
+        // const filePath = path.join(dir, filename);
+        const blob = new Blob([player.recordedData]);
+        const arrayBuffer = await blobToArrayBuffer(blob);
+        const filePath = await saveVideo(props.savedFolder, arrayBuffer);
+
+        // const filePath = await saveVideo(props.savedFolder, player.recordedData);
+        console.log(filePath);
+        lastSavedFilePath.value = filePath;
+        // lastSavedFilePath.value = await saveVideo(props.savedFolder, player.recordedData);
+        // console.log(filePath, window.TEMPORARY);
+
+        // window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+        // window.requestFileSystem(window.TEMPORARY, 1024 * 1024 * 1024 /* 1GB */, function (fs) {
+        //   fs.root.getFile(filePath, { create: true }, function (fileEntry) {
+        //     fileEntry.createWriter(function (fileWriter) {
+        //       fileWriter.onwriteend = function () {
+        //         console.log('Video saved successfully!');
+        //       };
+        //       fileWriter.write(player.recordedData);
+        //     });
+        //   });
+        // }, function (err) {
+        //   console.log(err.name);
+        // });
       });
 
       // error handling
@@ -179,7 +221,8 @@ export default defineComponent({
     })
 
     return {
-      videoElementId
+      videoElementId,
+      lastSavedFilePath
     }
   }
 });
