@@ -2,6 +2,8 @@
 
 Camera recorder for multi USB devices
 
+![screenshot](./doc/images/screenshot.png)
+
 ## Install the dependencies
 ```bash
 yarn
