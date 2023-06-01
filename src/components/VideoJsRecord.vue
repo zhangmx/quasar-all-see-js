@@ -106,8 +106,8 @@ export default {
     submitVideo() {
       this.isSaveDisabled = true;
       this.isRetakeDisabled = true;
-      var data = this.player.recordedData;
-      var formData = new FormData();
+      const data = this.player.recordedData;
+      const formData = new FormData();
       formData.append('video', data, data.name);
       this.submitText = 'Uploading ' + data.name;
       console.log('uploading recording:', data.name);

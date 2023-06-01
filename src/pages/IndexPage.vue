@@ -4,7 +4,9 @@
       <CameraVideo v-for="camera in cameraList" :key="camera.deviceId" v-bind="camera" :saved-folder="fileFolder" />
     </div>
     <div class="q-pa-md row items-start q-gutter-md">
-      <VideoJsRecord/><OriginalVideo/>
+      <VideoJsRecord/>
+
+      <OriginalVideo/>
     </div>
   </q-page>
 
