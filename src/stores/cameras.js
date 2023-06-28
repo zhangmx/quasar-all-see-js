@@ -11,7 +11,8 @@ export const useCamerasStore = defineStore('cameras', {
     cameras: [],
   }),
   getters: {
-    cameraList: (state) => state.cameras.filter((e) => e.label !== 'Integrated Camera (04f2:b6be)'),
+    // cameraList: (state) => state.cameras.filter((e) => e.label !== 'Integrated Camera (04f2:b6be)'),
+    cameraList: (state) => state.cameras
   },
   actions: {
     refresh() {

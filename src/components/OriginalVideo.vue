@@ -43,13 +43,16 @@ const videoElementId = computed(() => 'id' + props.id.slice(2, 10))
 const constraints = {
   audio: false,
   video: {
-    width: { min: 1024, ideal: 1280, max: 1920 },
-    height: { min: 576, ideal: 720, max: 1080 },
+    // 因为usb 不支持这个参数，所以会导致无法打开摄像头；并且还会用默认的摄像头代替USB 摄像头
+    // width: { min: 1024, ideal: 1280, max: 1920 },
+    // height: { min: 576, ideal: 720, max: 1080 },
     // facingMode: 'environment',
     deviceId: props.deviceId
+    //         d2c5f89aeae8b57f362d0e152706cf99cdd36e702561dbd6181392680fdd3f4e
+    // deviceId: 'd2c5f89aeae8b57f362d0e152706cf99cdd36e702561dbd6181392680fdd3f4e'
   },
 }
-
+// stream.value = await navigator.mediaDevices.getUserMedia(constraints)
 onMounted(async () => {
   console.log(constraints)
   stream.value = await navigator.mediaDevices.getUserMedia(constraints)
@@ -68,12 +71,20 @@ onMounted(async () => {
   // videoRef.value.srcObject = stream.value
 })
 
+const openCamera = async () => {
+  console.log(constraints)
+  stream.value = await navigator.mediaDevices.getUserMedia(constraints)
+  console.log(stream.value)
+  videoRef.value.srcObject = stream.value
+}
+
 onBeforeUnmount(() => {
   stream.value.getTracks().forEach(track => track.stop())
 })
 
 const startRecording = () => {
-  mediaRecorder.value.start()
+  openCamera()
+  // mediaRecorder.value.start()
 }
 
 const stopRecording = () => {
