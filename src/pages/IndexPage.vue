@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="q-pa-md row items-start q-gutter-md">
-      <OriginalVideo v-for="camera in cameraList" :key="camera.deviceId" v-bind="camera" :saved-folder="fileFolder" />
+      <CameraVideo v-for="camera in cameraList" :key="camera.deviceId" v-bind="camera" :saved-folder="fileFolder" />
     </div>
   </q-page>
 
@@ -20,14 +20,14 @@ import { defineComponent, onBeforeMount, onUpdated } from 'vue';
 import { useCamerasStore } from 'stores/cameras';
 import { useFolderStore } from 'stores/folder';
 import { storeToRefs } from 'pinia';
-import OriginalVideo from 'components/OriginalVideo.vue';
+import CameraVideo from 'components/CameraVideo.vue';
 import { selectFolder, shortcutDirs } from '../backend/utils.js'
 
 export default defineComponent({
   name: 'IndexPage',
 
   components: {
-    OriginalVideo,
+    CameraVideo,
   },
 
   setup() {
