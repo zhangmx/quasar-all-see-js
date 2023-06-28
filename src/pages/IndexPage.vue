@@ -3,11 +3,6 @@
     <div class="q-pa-md row items-start q-gutter-md">
       <CameraVideo v-for="camera in cameraList" :key="camera.deviceId" v-bind="camera" :saved-folder="fileFolder" />
     </div>
-    <div class="q-pa-md row items-start q-gutter-md">
-      <VideoJsRecord/>
-
-      <OriginalVideo/>
-    </div>
   </q-page>
 
   <q-footer reveal bordered class="bg-grey-8 text-white">
@@ -26,9 +21,6 @@ import { useCamerasStore } from 'stores/cameras';
 import { useFolderStore } from 'stores/folder';
 import { storeToRefs } from 'pinia';
 import CameraVideo from 'components/CameraVideo.vue';
-import VideoJsRecord from 'components/VideoJsRecord.vue';
-import OriginalVideo from 'components/OriginalVideo.vue';
-
 import { selectFolder, shortcutDirs } from '../backend/utils.js'
 
 export default defineComponent({
@@ -36,8 +28,6 @@ export default defineComponent({
 
   components: {
     CameraVideo,
-    VideoJsRecord,
-    OriginalVideo,
   },
 
   setup() {
