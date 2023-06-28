@@ -11,10 +11,12 @@ export const useCamerasStore = defineStore('cameras', {
     cameras: [],
   }),
   getters: {
-    cameraList: (state) => state.cameras,
+    cameraList: (state) => state.cameras.filter((e) => e.label !== 'Integrated Camera (04f2:b6be)'),
   },
   actions: {
     refresh() {
+      const devices = navigator.mediaDevices.enumerateDevices()
+      console.log(devices)
       DetectRTC.load(() => {
         this.cameras = DetectRTC.videoInputDevices.map((device) => {
           return { ...device, enabled: true };
