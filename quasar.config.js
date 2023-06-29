@@ -232,6 +232,7 @@ module.exports = configure((ctx) => ({
           {
             target: 'nsis',
             arch: ['x64', 'arm64', 'ia32']
+            // arch: ['x64', 'arm64']
           }
         ]
       },
@@ -249,7 +250,8 @@ module.exports = configure((ctx) => ({
         target: [
           {
             target: 'AppImage',
-            arch: ['x64', 'arm64', 'ia32', 'armv7l']
+            // arch: ['x64', 'arm64', 'ia32', 'armv7l']
+            arch: ['x64', 'arm64', 'armv7l']
           }
         ]
       },
