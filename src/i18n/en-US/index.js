@@ -5,6 +5,7 @@ export default {
   app: 'Allsee App',
   all_cameras: 'All Cameras',
   video_save_path: 'Video Save Path:',
+  language: 'Language:',
   failed: 'Action failed',
   success: 'Action was successful',
 };

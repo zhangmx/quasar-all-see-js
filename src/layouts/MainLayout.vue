@@ -8,6 +8,12 @@
           {{ $t('app') }}
         </q-toolbar-title>
 
+        <q-select v-model="locale" :options="localeOptions"
+          :label="$t('language')"
+          dense borderless emit-value
+          map-options options-dense
+          style="min-width: 150px" />
+
         <div>v {{ appVersion }}</div>
       </q-toolbar>
     </q-header>
@@ -36,6 +42,7 @@ import CameraLink from 'components/CameraLink.vue';
 import { useCamerasStore } from 'stores/cameras';
 import { storeToRefs } from 'pinia';
 import { getVersion } from '../backend/utils.js';
+import * as i18n from 'vue-i18n';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -48,19 +55,29 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
     const appVersion = ref('');
 
+    const { locale } = i18n.useI18n({ useScope: 'global' });
+
+    const localeOptions = [
+      { label: 'English', value: 'en-US' },
+      { label: '简体中文', value: 'zh-CN' },
+    ]
+
     const store = useCamerasStore();
-    const { cameraList } = storeToRefs(store)
-    const { refresh } = store
+    const { cameraList } = storeToRefs(store);
+    const { refresh } = store;
 
     onMounted(async () => {
-      refresh()
-      appVersion.value = await getVersion()
+      appVersion.value = await getVersion();
+
+      refresh();
     })
 
     return {
       cameraLinks: cameraList,
       leftDrawerOpen,
       appVersion,
+      locale,
+      localeOptions,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

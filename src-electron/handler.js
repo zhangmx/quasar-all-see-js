@@ -8,7 +8,7 @@ import mime from 'mime'
 import walkFolders from './walkFolders'
 import windowsDrives from './getWindowsDrives'
 
-import { version } from '../package.json'
+import packageInfo from '../package.json'
 
 export function useHandler(mainWindow) {
   ipcMain.handle('myShell:walkFolders', async (event, path) => {
@@ -65,7 +65,7 @@ export function useHandler(mainWindow) {
   })
 
   ipcMain.handle('myShell:version', async () => {
-    return version
+    return packageInfo.version
   })
 
   ipcMain.handle('myShell:platform', async () => {
