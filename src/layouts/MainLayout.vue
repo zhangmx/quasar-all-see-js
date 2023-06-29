@@ -18,7 +18,8 @@
           All cameras
         </q-item-label>
 
-        <CameraLink v-for="camera in cameraLinks" :key="camera.deviceId" v-bind="camera" @toggle-enabled="toggleCamera" />
+        <CameraLink v-for="camera in cameraLinks" :key="camera.deviceId" v-bind="camera" @toggle-enabled="toggleCamera"
+          @update-name="updateName" />
       </q-list>
     </q-drawer>
 
@@ -44,6 +45,7 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+
     const store = useCamerasStore();
     const { cameraList } = storeToRefs(store)
     const { refresh } = store
@@ -58,6 +60,9 @@ export default defineComponent({
       },
       toggleCamera(deviceId) {
         store.toggleCamera(deviceId)
+      },
+      updateName(camera) {
+        store.updateName(camera[0], camera[1])
       }
     };
   },

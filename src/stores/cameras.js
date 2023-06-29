@@ -11,13 +11,11 @@ export const useCamerasStore = defineStore('cameras', {
     cameras: [],
   }),
   getters: {
-    // cameraList: (state) => state.cameras.filter((e) => e.label !== 'Integrated Camera (04f2:b6be)'),
     cameraList: (state) => state.cameras
   },
   actions: {
     refresh() {
-      const devices = navigator.mediaDevices.enumerateDevices()
-      console.log(devices)
+      // const devices = navigator.mediaDevices.enumerateDevices()
       DetectRTC.load(() => {
         this.cameras = DetectRTC.videoInputDevices.map((device) => {
           return { ...device, enabled: true };
@@ -30,6 +28,19 @@ export const useCamerasStore = defineStore('cameras', {
           c.enabled = !c.enabled;
         }
       });
+      this.updateStore();
+    },
+    updateName(camera, name) {
+      this.cameras.forEach((c) => {
+        if (c.deviceId === camera) {
+          c.name = name;
+        }
+      });
+      this.updateStore();
+    },
+    updateStore() {
+      // save cameras to local storage
+      console.log('saving cameras to local storage');
     }
   },
 });

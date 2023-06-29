@@ -4,8 +4,8 @@
 
       <video :id="videoElementId" class="video-js vjs-default-skin" playsinline></video>
 
-      <div class="text-h6">{{ label }}</div>
-      <!-- <div class="text-subtitle2">{{ lastSavedFilePath }}</div> -->
+      <div class="text-h6">{{ cameraName }}</div>
+
     </q-card-section>
 
     <q-separator dark inset />
@@ -67,6 +67,11 @@ export default defineComponent({
       default: '',
     },
 
+    name: {
+      type: String,
+      default: '',
+    },
+
     savedFolder: {
       type: String,
       default: '',
@@ -74,37 +79,21 @@ export default defineComponent({
   },
   methods: {
     toggleEnabled() {
-      // console.log('Toggle enabled', this.enabled);
       this.$emit('update:enabled', !this.enabled);
     },
   },
 
-  mounted() {
-
-  },
   setup(props, context) {
-    console.log('CameraLink ==> ', props.savedFolder)
-
-    // const link = 'https://www.youtube.com/embed/k3_tw44QsZQ?rel=0'
-
     const videoElementId = computed(() => 'id' + props.id.slice(2, 10))
     const lastSavedFilePath = ref('')
 
+    const cameraName = computed(() => {
+      return props.name || props.label;
+    });
+
     let player;
 
-    // const player = videojs('videoPlayerElement', options, () => {
-    //   // this.player.log("onPlayerReady", this);
-    //   const msg = 'Using video.js ' + videojs.VERSION
-    //     + ' with videojs-record ' + videojs.getPluginVersion('record')
-    //     + ' and recordrtc ' + RecordRTC.version;
-    //   videojs.log(msg);
-    // });
-
     onMounted(() => {
-      console.log('onMounted')
-      console.log(videoElementId.value)
-      console.log('deviceId', props.deviceId)
-
       const options = {
         controls: true,
         width: 320,
@@ -131,27 +120,11 @@ export default defineComponent({
       };
 
       player = videojs(videoElementId.value, options, () => {
-        // this.player.log("onPlayerReady", this);
         const msg = 'Using video.js ' + videojs.VERSION
           + ' with videojs-record ' + videojs.getPluginVersion('record')
           + ' and recordrtc ' + RecordRTC.version;
         videojs.log(msg);
       });
-      // videoPlayer.src({
-      //   src: link,
-      //   type: 'application/x-mpegURL'
-      // });
-
-      // const deviceId = props.deviceId;
-
-      // async function getCameraStream() {
-      //   const stream = await navigator.mediaDevices.getUserMedia({
-      //     video: { deviceId: { exact: props.deviceId } },
-      //   });
-      //   player.srcObject = stream;
-      // }
-
-      // getCameraStream()
 
       // device is ready
       player.on('deviceReady', () => {
@@ -167,7 +140,6 @@ export default defineComponent({
       player.on('finishRecord', async () => {
         // the blob object contains the recorded data that
         // can be downloaded by the user, stored on server etc.
-        console.log('finished recording: ', props.savedFolder, player.recordedData);
         function blobToArrayBuffer(blob) {
           return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -176,8 +148,6 @@ export default defineComponent({
             reader.readAsArrayBuffer(blob);
           });
         }
-        // const desktopDir = require('desktop-dir');
-        // const dir = desktopDir('Desktop');
 
         // 生成文件名
         // const filename = new Date().getTime() + '.webm';
@@ -189,8 +159,6 @@ export default defineComponent({
         const arrayBuffer = await blobToArrayBuffer(blob);
         const filePath = await saveVideo(props.savedFolder, arrayBuffer);
 
-        // const filePath = await saveVideo(props.savedFolder, player.recordedData);
-        console.log(filePath);
         lastSavedFilePath.value = filePath;
         // lastSavedFilePath.value = await saveVideo(props.savedFolder, player.recordedData);
         // console.log(filePath, window.TEMPORARY);
@@ -222,6 +190,7 @@ export default defineComponent({
 
     return {
       videoElementId,
+      cameraName,
       lastSavedFilePath
     }
   }

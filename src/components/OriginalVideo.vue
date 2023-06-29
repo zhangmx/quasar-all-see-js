@@ -48,8 +48,6 @@ const constraints = {
     // height: { min: 576, ideal: 720, max: 1080 },
     // facingMode: 'environment',
     deviceId: props.deviceId
-    //         d2c5f89aeae8b57f362d0e152706cf99cdd36e702561dbd6181392680fdd3f4e
-    // deviceId: 'd2c5f89aeae8b57f362d0e152706cf99cdd36e702561dbd6181392680fdd3f4e'
   },
 }
 // stream.value = await navigator.mediaDevices.getUserMedia(constraints)
@@ -65,26 +63,21 @@ onMounted(async () => {
     videoRecorded.value = URL.createObjectURL(event.data) // <6>
   })
   mediaRecorder.value = mr
-  // console.log(mediaRecorder.value)
-
-  console.log(videoRef.value)
-  // videoRef.value.srcObject = stream.value
 })
 
-const openCamera = async () => {
-  console.log(constraints)
-  stream.value = await navigator.mediaDevices.getUserMedia(constraints)
-  console.log(stream.value)
-  videoRef.value.srcObject = stream.value
-}
+// const openCamera = async () => {
+//   console.log(constraints)
+//   stream.value = await navigator.mediaDevices.getUserMedia(constraints)
+//   console.log(stream.value)
+//   videoRef.value.srcObject = stream.value
+// }
 
 onBeforeUnmount(() => {
   stream.value.getTracks().forEach(track => track.stop())
 })
 
 const startRecording = () => {
-  openCamera()
-  // mediaRecorder.value.start()
+  mediaRecorder.value.start()
 }
 
 const stopRecording = () => {
