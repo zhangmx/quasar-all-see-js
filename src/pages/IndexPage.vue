@@ -8,7 +8,7 @@
   <q-footer reveal bordered class="bg-grey-8 text-white">
     <q-toolbar>
       <q-toolbar-title>
-        <q-btn @click="updateFileFolder" color="secondary" label="视频保存目录: " />
+        <q-btn @click="updateFileFolder" color="secondary" :label="$t('video_save_path')" />
         <span class="tag label bg-primary text-white">{{ fileFolder }}</span>
       </q-toolbar-title>
     </q-toolbar>

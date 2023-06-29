@@ -13,7 +13,6 @@ export const useFolderStore = defineStore('folder', {
 
   actions: {
     updateFolder (folderPath) {
-      console.log(folderPath)
       this.folder = folderPath
     }
   }
