@@ -2,6 +2,8 @@ name: build
 
 on:
   push:
+    tags:
+      - v*  # 表示所有v开头的tag
     branches:
       - main
   pull_request:

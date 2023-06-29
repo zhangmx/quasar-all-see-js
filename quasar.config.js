@@ -256,7 +256,9 @@ module.exports = configure((ctx) => ({
         ]
       },
       publish: {
-        provider: 'github'
+        provider: 'github',
+        publishAutoUpdate: true,
+        publish: 'always'
       }
     },
 
