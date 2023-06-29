@@ -1,7 +1,7 @@
 <template>
   <q-item>
     <q-item-section v-if="editing">
-      <input type="text" v-model="cameraNewName" @change="$emit('updateName', [deviceId, cameraNewName]);editing = !editing">
+      <input type="text" v-model="cameraNewName" @change="onNameChange">
     </q-item-section>
 
     <q-item-section v-if="!editing">
@@ -64,7 +64,8 @@ export default defineComponent({
       default: '',
     },
   },
-  setup(props) {
+  emits: ['toggleEnabled', 'updateName'],
+  setup(props, { emit }) {
     const cameraName = computed(() => {
       return props.name || props.label;
     });
@@ -76,10 +77,16 @@ export default defineComponent({
       cameraNewName.value = props.name
     })
 
+    const onNameChange = (cameraNewName) => {
+      emit('updateName', [props.deviceId, cameraNewName.target.value]);
+      editing.value = !editing.value
+    }
+
     return {
       editing,
       cameraNewName,
-      cameraName
+      cameraName,
+      onNameChange
     }
   }
 });
