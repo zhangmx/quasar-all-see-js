@@ -10,6 +10,7 @@ export const useCamerasStore = defineStore('cameras', {
   state: () => ({
     cameras: [],
   }),
+  persist: true,
   getters: {
     cameraList: (state) => state.cameras
   },

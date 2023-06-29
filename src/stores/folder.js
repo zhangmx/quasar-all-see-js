@@ -4,7 +4,7 @@ export const useFolderStore = defineStore('folder', {
   state: () => ({
     folder: ''
   }),
-
+  persist: true,
   // getters: {
   //   doubleCount (state) {
   //     return state.counter * 2
