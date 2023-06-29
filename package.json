@@ -11,7 +11,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m electron",
     "build": "quasar build -m electron -P never",
-    "release": "quasar build -m electron -P onTagOrDraft"
+    "release": "quasar build -m electron -P always"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",

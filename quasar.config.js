@@ -256,9 +256,11 @@ module.exports = configure((ctx) => ({
         ]
       },
       publish: {
-        provider: 'github',
-        publishAutoUpdate: true,
-        publish: 'always'
+        provider: 'github', //
+        owner: 'zhangmx',
+        repo: 'quasar-all-see-js',
+        // publishAutoUpdate: true,
+        // publish: 'always'
       }
     },
 
