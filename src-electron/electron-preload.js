@@ -39,6 +39,7 @@ contextBridge.exposeInMainWorld(
     windowsDrives: () => ipcRenderer.invoke('myShell:windowsDrives'),
     shortcutFolders: () => ipcRenderer.invoke('myShell:shortcutFolders'),
     sep: () => ipcRenderer.invoke('myShell:sep'),
+    version: () => ipcRenderer.invoke('myShell:version'),
     platform: () => ipcRenderer.invoke('myShell:platform'),
     pathExists: (path) => ipcRenderer.invoke('myShell:pathExists', path),
     readFile: (path) => ipcRenderer.invoke('myShell:readFile', path),

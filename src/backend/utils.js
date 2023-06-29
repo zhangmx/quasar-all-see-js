@@ -56,6 +56,10 @@ export async function getSep () {
   return await myShell.sep()
 }
 
+export async function getVersion () {
+  return await myShell.version()
+}
+
 export async function openFile (path) {
   return await myShell.openFile(path)
 }

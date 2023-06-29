@@ -8,7 +8,7 @@
           {{ $t('app') }}
         </q-toolbar-title>
 
-        <div>v{{ $q.version }}</div>
+        <div>v {{ appVersion }}</div>
       </q-toolbar>
     </q-header>
 
@@ -31,10 +31,11 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import CameraLink from 'components/CameraLink.vue';
 import { useCamerasStore } from 'stores/cameras';
 import { storeToRefs } from 'pinia';
+import { getVersion } from '../backend/utils.js';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -45,16 +46,21 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    const appVersion = ref('');
 
     const store = useCamerasStore();
     const { cameraList } = storeToRefs(store)
     const { refresh } = store
 
-    refresh()
+    onMounted(async () => {
+      refresh()
+      appVersion.value = await getVersion()
+    })
 
     return {
       cameraLinks: cameraList,
       leftDrawerOpen,
+      appVersion,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
