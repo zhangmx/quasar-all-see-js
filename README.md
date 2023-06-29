@@ -28,7 +28,11 @@ npm run lint
 
 ### Build the app for production
 ```bash
-quasar build
+quasar build -m electron -d
+```
+
+```bash
+quasar build -m electron -P always
 ```
 
 ### Customize the configuration

@@ -198,7 +198,7 @@ module.exports = configure((ctx) => ({
 
   // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/developing-electron-apps/configuring-electron
   electron: {
-    bundler: 'packager', // 'packager' or 'builder'
+    bundler: 'builder', // 'packager' or 'builder'
 
     packager: {
       // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -226,9 +226,34 @@ module.exports = configure((ctx) => ({
       // https://www.electron.build/configuration/configuration
 
       appId: 'quasar-all-see-js',
+      win: {
+        target: [
+          {
+            target: 'nsis',
+            arch: ['x64', 'arm64', 'ia32']
+          }
+        ]
+      },
+      mac: {
+        target: [
+          {
+            target: 'dmg',
+            arch: ['x64', 'arm64']
+          }
+        ]
+      },
       linux: {
-        category: 'Utility'
+        category: 'Utility',
         //   target: 'AppImage'
+        target: [
+          {
+            target: 'AppImage',
+            arch: ['x64', 'arm64', 'ia32', 'armv7l']
+          }
+        ]
+      },
+      publish: {
+        provider: 'github'
       }
     },
 

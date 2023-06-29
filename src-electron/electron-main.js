@@ -2,6 +2,8 @@ import { app, BrowserWindow, nativeTheme } from 'electron'
 import path from 'path'
 import os from 'os'
 
+import { autoUpdater } from 'electron-updater'
+
 import { useHandler } from './handler'
 
 // needed in case process is undefined under Linux
@@ -56,7 +58,12 @@ function createWindow() {
   })
 }
 
-app.whenReady().then(createWindow)
+// app.whenReady().then(createWindow)
+
+app.on('ready', () => {
+  autoUpdater.checkForUpdatesAndNotify()
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (platform !== 'darwin') {
