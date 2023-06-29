@@ -1,6 +1,6 @@
 {
   "name": "quasar-all-see-js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Camera recorder for multi USB devices",
   "productName": "Quasar All see",
   "author": "zhangmx <icediv@163.com>",
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
+    "@changesets/cli": "^2.26.2",
     "@quasar/app-webpack": "^3.0.0",
     "electron": "^24.3.1",
     "electron-builder": "^24.4.0",

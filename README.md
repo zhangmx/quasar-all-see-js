@@ -31,6 +31,14 @@ npm run lint
 quasar build -m electron -d
 ```
 
+### Publish the app for production
+
+changeset with:
+
+```bash
+npx changeset version
+```
+
 ```bash
 quasar build -m electron -P always
 ```
