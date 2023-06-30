@@ -11,6 +11,10 @@ export const useCamerasStore = defineStore('cameras', {
     cameras: [],
   }),
   persist: true,
+  // persist: {
+  //   storage: localStorage, // 指定存储方式
+  //   paths: ['cameras'] // 指定要保存的路径
+  // },
   getters: {
     cameraList: (state) => state.cameras
   },
@@ -18,7 +22,12 @@ export const useCamerasStore = defineStore('cameras', {
     refresh() {
       // const devices = navigator.mediaDevices.enumerateDevices()
       DetectRTC.load(() => {
+        const oldCameras = this.cameras;
         this.cameras = DetectRTC.videoInputDevices.map((device) => {
+          const oldCamera = oldCameras.find((c) => c.deviceId === device.deviceId);
+          if (oldCamera) {
+            return { ...device, enabled: oldCamera.enabled, name: oldCamera.name };
+          }
           return { ...device, enabled: true };
         });
       })
