@@ -108,6 +108,6 @@ export async function selectFolder() {
   return await myShell.selectFolder()
 }
 
-export async function saveVideo(filePath, buffer) {
-  return await myShell.saveVideo(filePath, buffer)
+export async function saveVideo(filePath, filename, buffer) {
+  return await myShell.saveVideo(filePath, filename, buffer)
 }

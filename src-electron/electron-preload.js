@@ -45,6 +45,6 @@ contextBridge.exposeInMainWorld(
     readFile: (path) => ipcRenderer.invoke('myShell:readFile', path),
     getMimeType: (path) => ipcRenderer.invoke('myShell:getMimeType', path),
     selectFolder: () => ipcRenderer.invoke('myShell:selectFolder'),
-    saveVideo: (fileFolder, data) => ipcRenderer.invoke('myShell:saveVideo', fileFolder, data),
+    saveVideo: (fileFolder, filename, data) => ipcRenderer.invoke('myShell:saveVideo', fileFolder, filename, data),
   }
 )

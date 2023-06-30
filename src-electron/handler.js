@@ -1,5 +1,4 @@
 import { app, ipcMain, shell, dialog } from 'electron'
-// import { app, ipcMain, shell, dialog, BrowserWindow } from 'electron'
 import path from 'path'
 import os from 'os'
 import { pathExists, readFileSync, writeFile } from 'fs-extra'
@@ -90,53 +89,11 @@ export function useHandler(mainWindow) {
   })
 
   ipcMain.handle('myShell:selectFolder', async () => {
-    // const focusedWindow = BrowserWindow.getFocusedWindow()
-    // dialog.showOpenDialog(focusedWindow, { properties: ['openDirectory'] }, async (filePaths) => {
-    //   // 获取当前窗口引用
-    //   const currentWindow = BrowserWindow.fromId(focusedWindow.id)
-
-    //   // 将当前窗口置顶
-    //   // currentWindow.setAlwaysOnTop(true)
-
-    //   // 显示对话框
-    // await dialog.showOpenDialog(currentWindow, { properties: ['openDirectory'] })
-
-    //   // 关闭对话框后,取消置顶当前窗口
-    //   // currentWindow.setAlwaysOnTop(false)
-    // });
     return await dialog.showOpenDialogSync(mainWindow, { properties: ['openDirectory'] });
-    // mainWindow.setAlwaysOnTop(true)
-    // const folder = await dialog.showOpenDialogSync(mainWindow, { properties: ['openDirectory'] });
-    // mainWindow.setAlwaysOnTop(false)
-    // return folder;
-
-    // const dialogWindow = new BrowserWindow({
-    //   width: 0,
-    //   height: 0
-    // })
-    // dialogWindow.loadURL('about:blank')
-    // dialogWindow.hide()
-    // // dialogWindow.setAlwaysOnTop(true)
-    // dialogWindow.setAlwaysOnTop(true, 'floating', 1)
-    // const folder = dialog.showOpenDialog(dialogWindow, { properties: ['openDirectory'] })
-    // // const folder = await dialog.showOpenDialogSync(dialogWindow, { properties: ['openDirectory'] });
-    // dialogWindow.setAlwaysOnTop(false)
-    // dialogWindow.destroy()
-    // return folder
-
-    // dialog.showOpenDialog(mainWindow, { properties: ['openDirectory'] }, (filePaths) => {
-    //   const dialogWindow = BrowserWindow.getAllWindows().find(w => w.isModal())
-    //   console.log('showOpenDialog', filePaths)
-    //   console.log(filePaths)
-    //   console.log(dialogWindow)
-    //   dialogWindow.on('closed', () => {
-    //     dialogWindow.destroy()
-    //   })
-    // })
   })
 
-  ipcMain.handle('myShell:saveVideo', async (event, fileFolder, arrayBuffer) => {
-    const filename = new Date().getTime() + '.webm';
+  ipcMain.handle('myShell:saveVideo', async (event, fileFolder, filename, arrayBuffer) => {
+    // const filename = new Date().getTime() + '.webm';
     const filePath = path.join(fileFolder, filename);
 
     const buffer = Buffer.from(arrayBuffer);

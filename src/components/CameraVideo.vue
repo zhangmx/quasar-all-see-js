@@ -150,14 +150,11 @@ export default defineComponent({
         }
 
         // 生成文件名
-        // const filename = new Date().getTime() + '.webm';
+        const filename = (cameraName.value + new Date().toISOString()).replace(/[^a-z0-9]/gi, '_') + '.webm';
 
-        // let filePath = props.savedFolder;
-        // filePath += '/' + filename;
-        // const filePath = path.join(dir, filename);
         const blob = new Blob([player.recordedData]);
         const arrayBuffer = await blobToArrayBuffer(blob);
-        const filePath = await saveVideo(props.savedFolder, arrayBuffer);
+        const filePath = await saveVideo(props.savedFolder, filename, arrayBuffer);
 
         lastSavedFilePath.value = filePath;
         // lastSavedFilePath.value = await saveVideo(props.savedFolder, player.recordedData);
