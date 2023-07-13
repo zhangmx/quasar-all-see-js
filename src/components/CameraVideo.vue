@@ -1,8 +1,8 @@
 <template>
-  <q-card dark bordered class="bg-grey-9 my-card" v-show="enabled">
+  <q-card dark bordered class="bg-grey-9 my-card" v-show="enabled" style="margin: 0px 30px 0 40px">
     <q-card-section>
 
-      <video :id="videoElementId" class="video-js vjs-default-skin" playsinline></video>
+      <video :id="videoElementId" class="video-js vjs-default-skin" playsinline style="height: 600px; width: 100%;"></video>
 
       <div class="text-h6">{{ cameraName }}</div>
 
@@ -96,8 +96,8 @@ export default defineComponent({
     onMounted(() => {
       const options = {
         controls: true,
-        width: 320,
-        height: 240,
+        // width: 320,
+        // height: 240,
         loop: false,
         autoplay: false,
         fluid: false,

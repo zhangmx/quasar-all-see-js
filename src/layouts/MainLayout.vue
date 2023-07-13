@@ -12,9 +12,9 @@
           :label="$t('language')"
           dense borderless emit-value
           map-options options-dense
-          style="min-width: 150px" />
+          style="min-width: 90px" />
 
-        <div>v {{ appVersion }}</div>
+        <div style="width: 60px;text-align: right;">v {{ appVersion }}</div>
       </q-toolbar>
     </q-header>
 
@@ -35,6 +35,14 @@
 
   </q-layout>
 </template>
+
+<style>
+.q-field--auto-height.q-field--dense.q-field--labeled .q-field__native span,
+.q-select__dropdown-icon,
+.q-field--dense.q-field--float .q-field__label {
+  color: white;
+}
+</style>
 
 <script>
 import { defineComponent, onMounted, ref } from 'vue';

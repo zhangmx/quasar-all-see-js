@@ -1,7 +1,7 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md row items-start q-gutter-md">
-      <CameraVideo v-for="camera in cameraList" :key="camera.deviceId" v-bind="camera" :saved-folder="fileFolder" />
+  <q-page class="flex flex-center" style="width:100%">
+    <div class="q-pa-md row items-start q-gutter-md" style="width:100%">
+      <CameraVideo style="width:45%" v-for="camera in cameraList" :key="camera.deviceId" v-bind="camera" :saved-folder="fileFolder" />
     </div>
   </q-page>
 
