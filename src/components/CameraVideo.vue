@@ -27,6 +27,8 @@ import RecordRTC from 'recordrtc'
 
 // eslint-disable-next-line no-unused-vars
 import Record from 'videojs-record/dist/videojs.record.js'
+// eslint-disable-next-line no-unused-vars
+import TsEBMLEngine from 'videojs-record/dist/plugins/videojs.record.ts-ebml.js';
 import { saveVideo } from '../backend/utils.js'
 
 export default defineComponent({
@@ -96,8 +98,6 @@ export default defineComponent({
     onMounted(() => {
       const options = {
         controls: true,
-        // width: 320,
-        // height: 240,
         loop: false,
         autoplay: false,
         fluid: false,
@@ -114,6 +114,7 @@ export default defineComponent({
             },
             maxLength: 60 * 60,
             displayMilliseconds: false,
+            convertEngine: 'ts-ebml',
             debug: true
           }
         }
@@ -137,7 +138,30 @@ export default defineComponent({
       });
 
       // user completed recording and stream is available
-      player.on('finishRecord', async () => {
+      // player.on('finishRecord', async () => {
+      //   // the blob object contains the recorded data that
+      //   // can be downloaded by the user, stored on server etc.
+      //   function blobToArrayBuffer(blob) {
+      //     return new Promise((resolve, reject) => {
+      //       const reader = new FileReader();
+      //       reader.onload = () => resolve(reader.result);
+      //       reader.onerror = reject;
+      //       reader.readAsArrayBuffer(blob);
+      //     });
+      //   }
+
+      //   // 生成文件名
+      //   const filename = (cameraName.value + new Date().toISOString()).replace(/[^a-z0-9]/gi, '_') + '.webm';
+
+      //   const blob = new Blob([player.recordedData]);
+      //   const arrayBuffer = await blobToArrayBuffer(blob);
+      //   const filePath = await saveVideo(props.savedFolder, filename, arrayBuffer);
+
+      //   lastSavedFilePath.value = filePath;
+      // });
+
+      // user completed recording and stream is available
+      player.on('finishConvert', async () => {
         // the blob object contains the recorded data that
         // can be downloaded by the user, stored on server etc.
         function blobToArrayBuffer(blob) {
@@ -150,29 +174,13 @@ export default defineComponent({
         }
 
         // 生成文件名
-        const filename = (cameraName.value + new Date().toISOString()).replace(/[^a-z0-9]/gi, '_') + '.webm';
+        const filename = (cameraName.value + new Date().toISOString()).replace(/[^a-z0-9]/gi, '_') + '.mp4';
 
-        const blob = new Blob([player.recordedData]);
+        const blob = new Blob([player.convertedData]);
         const arrayBuffer = await blobToArrayBuffer(blob);
         const filePath = await saveVideo(props.savedFolder, filename, arrayBuffer);
 
         lastSavedFilePath.value = filePath;
-        // lastSavedFilePath.value = await saveVideo(props.savedFolder, player.recordedData);
-        // console.log(filePath, window.TEMPORARY);
-
-        // window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-        // window.requestFileSystem(window.TEMPORARY, 1024 * 1024 * 1024 /* 1GB */, function (fs) {
-        //   fs.root.getFile(filePath, { create: true }, function (fileEntry) {
-        //     fileEntry.createWriter(function (fileWriter) {
-        //       fileWriter.onwriteend = function () {
-        //         console.log('Video saved successfully!');
-        //       };
-        //       fileWriter.write(player.recordedData);
-        //     });
-        //   });
-        // }, function (err) {
-        //   console.log(err.name);
-        // });
       });
 
       // error handling
