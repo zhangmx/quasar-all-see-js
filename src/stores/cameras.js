@@ -48,26 +48,27 @@ export const useCamerasStore = defineStore('cameras', {
                 } else {
                   this.cameras.push({ ...device, enabled: true });
                 }
-                console.log(this.cameras);
               });
           } else {
             // 640 * 360
             // 640 * 480
             // 1280 * 720
+            new Promise((resolve, reject) => { resolve(); }).then(
+              () => {
+                device.maxHeight = 960 / 2;
+                device.maxWidth = 1280 / 2;
+                const oldCamera = oldCameras.find((c) => c.deviceId === device.deviceId);
 
-            device.maxHeight = 960 / 2;
-            device.maxWidth = 1280 / 2;
-            const oldCamera = oldCameras.find((c) => c.deviceId === device.deviceId);
-
-            if (oldCamera) {
-              device.enabled = oldCamera.enabled;
-              device.name = oldCamera.name;
-              this.cameras.push(device);
-            } else {
-              this.cameras.push({ ...device, enabled: true });
-            }
+                if (oldCamera) {
+                  device.enabled = oldCamera.enabled;
+                  device.name = oldCamera.name;
+                  this.cameras.push(device);
+                } else {
+                  this.cameras.push({ ...device, enabled: true });
+                }
+              }
+            );
           }
-          console.log(this.cameras);
           return { ...device, enabled: true };
         });
       })
