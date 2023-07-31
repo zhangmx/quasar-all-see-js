@@ -2,7 +2,8 @@
   <q-card dark bordered class="bg-grey-9 my-card" v-show="enabled">
     <q-card-section>
 
-      <video :id="videoElementId" class="video-js vjs-default-skin" playsinline style="height: 600px; width: 100%;"></video>
+      <video :id="videoElementId" class="video-js vjs-default-skin" playsinline :width="maxWidth"
+        :height="maxHeight"></video>
 
       <div class="text-h6">{{ cameraName }}</div>
 
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-import { defineComponent, computed, onMounted, ref } from 'vue';
+import { defineComponent, computed, onMounted, ref, onBeforeUnmount } from 'vue';
 import 'video.js/dist/video-js.css'
 import 'videojs-record/dist/css/videojs.record.css'
 import videojs from 'video.js';
@@ -69,6 +70,16 @@ export default defineComponent({
       default: '',
     },
 
+    maxWidth: {
+      type: Number,
+      default: 1280 / 3,
+    },
+
+    maxHeight: {
+      type: Number,
+      default: 720 / 3,
+    },
+
     name: {
       type: String,
       default: '',
@@ -100,6 +111,8 @@ export default defineComponent({
         controls: true,
         loop: false,
         autoplay: false,
+        width: props.maxWidth,
+        height: props.maxHeight,
         fluid: false,
         bigPlayButton: false,
         controlBar: {
@@ -191,7 +204,13 @@ export default defineComponent({
       player.on('deviceError', () => {
         console.error('device error:', player.deviceErrorCode);
       });
-    })
+    });
+
+    onBeforeUnmount(() => {
+      if (player) {
+        player.dispose()
+      }
+    });
 
     return {
       videoElementId,
