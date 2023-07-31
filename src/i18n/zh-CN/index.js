@@ -8,4 +8,5 @@ export default {
   language: '语言:',
   failed: '操作失败',
   success: '操作成功',
+  showMaxVideo: '显示最大视频',
 };

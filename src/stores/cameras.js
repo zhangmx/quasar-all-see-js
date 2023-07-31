@@ -8,6 +8,7 @@ export const useCamerasStore = defineStore('cameras', {
    * @return {object} An object with an empty cameras array.
    */
   state: () => ({
+    useMax: true,
     cameras: [],
   }),
   persist: true,
@@ -16,6 +17,7 @@ export const useCamerasStore = defineStore('cameras', {
   //   paths: ['cameras'] // 指定要保存的路径
   // },
   getters: {
+    useMaxAble: (state) => state.useMax,
     cameraList: (state) => state.cameras
   },
   actions: {
@@ -25,44 +27,46 @@ export const useCamerasStore = defineStore('cameras', {
         const oldCameras = this.cameras;
         this.cameras = [];
         DetectRTC.videoInputDevices.map((device) => {
-          console.log(device);
+          // console.log(device);
           // 获取指定设备的capabilities
-          navigator.mediaDevices.getUserMedia({ video: { deviceId: device.deviceId } })
-            .then(stream => {
-              const track = stream.getVideoTracks()[0];
-              const capabilities = track.getCapabilities();
+          if (this.useMax) {
+            navigator.mediaDevices.getUserMedia({ video: { deviceId: device.deviceId } })
+              .then(stream => {
+                const track = stream.getVideoTracks()[0];
+                const capabilities = track.getCapabilities();
 
-              console.log(capabilities);
+                // console.log(capabilities);
+                // 获取支持的分辨率范围
+                device.maxHeight = capabilities.height.max;
+                device.maxWidth = capabilities.width.max;
 
-              // 获取支持的分辨率范围
-              device.maxHeight = capabilities.height.max;
-              device.maxWidth = capabilities.width.max;
+                const oldCamera = oldCameras.find((c) => c.deviceId === device.deviceId);
+                if (oldCamera) {
+                  device.enabled = oldCamera.enabled;
+                  device.name = oldCamera.name;
+                  this.cameras.push(device);
+                } else {
+                  this.cameras.push({ ...device, enabled: true });
+                }
+                console.log(this.cameras);
+              });
+          } else {
+            // 640 * 360
+            // 640 * 480
+            // 1280 * 720
 
-              // device.maxHeight = 720 / 2;
-              // device.maxWidth = 1000 / 2;
+            device.maxHeight = 960 / 2;
+            device.maxWidth = 1280 / 2;
+            const oldCamera = oldCameras.find((c) => c.deviceId === device.deviceId);
 
-              const oldCamera = oldCameras.find((c) => c.deviceId === device.deviceId);
-              if (oldCamera) {
-                device.enabled = oldCamera.enabled;
-                device.name = oldCamera.name;
-                this.cameras.push(device);
-              } else {
-                this.cameras.push({ ...device, enabled: true });
-              }
-
-              // console.log(this.cameras);
-            });
-
-          // const oldCamera = oldCameras.find((c) => c.deviceId === device.deviceId);
-
-          // if (oldCamera) {
-          //   device.enabled = oldCamera.enabled;
-          //   device.name = oldCamera.name;
-          //   this.cameras.push(device);
-          // } else {
-          //   this.cameras.push({ ...device, enabled: true });
-          // }
-          console.log('this.cameras ========');
+            if (oldCamera) {
+              device.enabled = oldCamera.enabled;
+              device.name = oldCamera.name;
+              this.cameras.push(device);
+            } else {
+              this.cameras.push({ ...device, enabled: true });
+            }
+          }
           console.log(this.cameras);
           return { ...device, enabled: true };
         });
@@ -74,7 +78,6 @@ export const useCamerasStore = defineStore('cameras', {
           c.enabled = !c.enabled;
         }
       });
-      this.updateStore();
     },
     updateName(camera, name) {
       this.cameras.forEach((c) => {
@@ -82,11 +85,10 @@ export const useCamerasStore = defineStore('cameras', {
           c.name = name;
         }
       });
-      this.updateStore();
     },
-    updateStore() {
-      // save cameras to local storage
-      console.log('saving cameras to local storage');
+    toggleMax() {
+      this.useMax = !this.useMax;
+      this.refresh();
     }
   },
 });

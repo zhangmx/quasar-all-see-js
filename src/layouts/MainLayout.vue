@@ -8,6 +8,12 @@
           {{ $t('app') }}
         </q-toolbar-title>
 
+        <q-space />
+
+        <q-checkbox v-model="useMaxAble" :label="$t('showMaxVideo')" dense borderless @update:model-value="toggleMax"/>
+
+        <q-space />
+
         <q-select v-model="locale" :options="localeOptions"
           :label="$t('language')"
           dense borderless emit-value
@@ -24,7 +30,7 @@
           {{ $t('all_cameras') }}
         </q-item-label>
 
-        <CameraLink v-for="camera in cameraLinks" :key="camera.deviceId" v-bind="camera" @toggle-enabled="toggleCamera"
+        <CameraLink v-for="camera in cameraLinks" :key="camera.deviceId" v-bind="camera" @toggle-enabled="onShowMaxVideo"
           @update-name="updateName" />
       </q-list>
     </q-drawer>
@@ -61,6 +67,7 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    // const showMaxVideo = ref(true);
     const appVersion = ref('');
 
     const { locale } = i18n.useI18n({ useScope: 'global' });
@@ -71,8 +78,8 @@ export default defineComponent({
     ]
 
     const store = useCamerasStore();
-    const { cameraList } = storeToRefs(store);
-    const { refresh } = store;
+    const { useMaxAble, cameraList } = storeToRefs(store);
+    const { refresh, toggleMax } = store;
 
     onMounted(async () => {
       appVersion.value = await getVersion();
@@ -83,6 +90,7 @@ export default defineComponent({
     return {
       cameraLinks: cameraList,
       leftDrawerOpen,
+      useMaxAble,
       appVersion,
       locale,
       localeOptions,
@@ -94,7 +102,15 @@ export default defineComponent({
       },
       updateName(camera) {
         store.updateName(camera[0], camera[1])
-      }
+      },
+      onShowMaxVideo(e) {
+        console.log(e, '-=====================');
+        // refresh(showMaxVideo.value);
+        toggleMax();
+
+        window.location.reload();
+      },
+      toggleMax,
     };
   },
 });

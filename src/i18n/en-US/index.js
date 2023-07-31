@@ -8,4 +8,5 @@ export default {
   language: 'Language:',
   failed: 'Action failed',
   success: 'Action was successful',
+  showMaxVideo: 'Show Max Video',
 };

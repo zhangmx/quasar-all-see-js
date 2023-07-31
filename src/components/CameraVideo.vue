@@ -107,6 +107,8 @@ export default defineComponent({
     let player;
 
     onMounted(() => {
+      console.log('mounted', props)
+
       const options = {
         controls: true,
         loop: false,
