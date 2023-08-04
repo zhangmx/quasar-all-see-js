@@ -10,7 +10,7 @@
 
         <q-space />
 
-        <q-checkbox v-model="useMaxAble" :label="$t('showMaxVideo')" dense borderless @update:model-value="onShowMaxVideo"/>
+        <q-toggle v-model="useMaxAble" :label="$t('showMaxVideo')" dense borderless @update:model-value="onShowMaxVideo"/>
 
         <q-space />
 
